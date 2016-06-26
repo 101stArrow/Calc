@@ -1,0 +1,112 @@
+<html>
+  <head>
+    <title>Calculator.js</title>
+  </head>
+  <body>
+    <h1>Factorise Equation Calculator</h1>
+    <input id="input1"/> --> <input id="input2"/>
+    <button onclick="fac(1000)" id="button">Factorise</button>
+
+    <script>
+      var array;
+      function fac(maxrange){
+        var type;
+        var a, b, c, d, e;
+        var x = []
+
+        input1 = document.getElementById('input1').value
+        input2 = document.getElementById('input2')
+        button = document.getElementById('button')
+
+        input = input1.split(' ')
+        array = input1;
+
+        if(input[0].split('').slice(-1)[0] == 2){
+          console.log("I'm a quadratic")
+          type = "quad"
+        } else {
+          console.log("I'm a cubic")
+          type = "cubic"
+        }
+        if(type == "quad"){
+          a = input[0]
+          b = input[2]
+          c = input[4]
+          if(input[1] == "-"){
+            b = "-"+b
+          }
+          if(input[3] == "-"){
+            c = "-"+c
+          }
+          console.log("A: "+a+" B: "+b+" C: "+c)
+          for(i=-maxrange; i<maxrange; i++){
+            for(j=-maxrange; j<maxrange; j++){
+              if(i+j == b.substring(0, b.length-1) && i*j == c){
+                d = i;
+                e = j;
+                j = i = Number.MAX_VALUE;
+              }
+            }
+          }
+          if(!d && !e){
+            input2.value = "Unsolvable via factorising"
+            button.setAttribute('onclick', 'solve()')
+            button.innerHTML = "Solve by Formula"
+          } else {
+            for(i=-maxrange; i<maxrange; i++){
+              if(input[1] = "-"){
+                if((i - d)==0){
+                  x.push(i)
+                }
+                if((i - e)==0){
+                  x.push(i)
+                }
+              } else if(input[1] = "+"){
+                if((i - d)==0){
+                  x.push(i)
+                }
+                if((i - e)==0){
+                  x.push(i)
+                }
+              }
+            }
+            inputx1 = input1.replace('x', x[0]).replace('x', '*'+x[0])
+            inputx2 = input1.replace('x', x[1]).replace('x', '*'+x[1])
+            if(eval(inputx1.replace(/(\d+)\^(\d+)/, "Math.pow($1, $2)")) == 0 &&
+            eval(inputx2.replace(/(\d+)\^(\d+)/, "Math.pow($1, $2)")) == 0){
+              console.log("Solved")
+            }
+            input2.value = x.toString()
+          }
+        }
+      }
+
+      function solve(){
+        input1 = document.getElementById('input1').value
+        input2 = document.getElementById('input2')
+
+        input = input1.split(' ')
+        a = input[0].substring(0, 1)
+        b = input[2].substring(0, 1)
+        c = input[4]
+
+        if(a == 'x'){a=1}
+        if(input[1] == "-"){
+          b = -b
+        }
+        if(input[3] == "-"){
+          c = -c
+        }
+
+        console.log("A: "+a+" B: "+b+" C: "+c)
+
+        var x = [];
+
+        x.push(Math.round(eval(-b + Math.sqrt(Math.pow(b, 2)-4*(a*c))/2*a) * 100) / 100)
+        x.push(Math.round(eval(-b - Math.sqrt(Math.pow(b, 2)-4*(a*c))/2*a) * 100) / 100)
+        input2.value = x.toString()
+      }
+
+    </script>
+  </body>
+</html>
